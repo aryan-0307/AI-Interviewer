@@ -279,8 +279,7 @@ class InterviewService:
         all_days = [d.day for d in load_curriculum()]
         all_topics = []
         for day in load_curriculum():
-            for t in day.topics:
-                all_topics.append(t.title)
+            all_topics.append(day.title)
         uncovered = [t for t in all_topics if t not in session.asked_topics]
 
         prompt = EVALUATE_ANSWER_PROMPT.format(

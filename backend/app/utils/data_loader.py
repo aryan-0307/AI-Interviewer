@@ -37,9 +37,8 @@ def _load_json(file_path: Path) -> Any:
 def load_curriculum() -> list[CurriculumDay]:
     """Load and validate the curriculum JSON into typed models."""
     raw = _load_json(DATA_DIR / "curriculum.json")
-    days = [CurriculumDay.model_validate(d) for d in raw]
-    logger.info("Curriculum loaded: %d days, %d total topics",
-                len(days), sum(len(d.topics) for d in days))
+    days = [CurriculumDay.model_validate(d) for d in raw.get("days", [])]
+    logger.info("Curriculum loaded: %d days", len(days))
     return days
 
 
@@ -53,29 +52,27 @@ def get_curriculum_text_chunks() -> list[dict[str, Any]]:
     """
     Split curriculum into text chunks suitable for embedding.
 
-    Each chunk is one topic within a day, containing the topic title,
-    description, and all concepts.  Returns a list of dicts with
-    'id', 'text', and 'metadata'.
+    Each chunk is one day, containing the title, type, tools, and objectives.
+    Returns a list of dicts with 'id', 'text', and 'metadata'.
     """
     days = load_curriculum()
     chunks: list[dict[str, Any]] = []
 
     for day in days:
-        for idx, topic in enumerate(day.topics):
-            chunk_id = f"day{day.day}_topic{idx}"
-            text = (
-                f"Day {day.day}: {day.title}\n"
-                f"Topic: {topic.title}\n"
-                f"Description: {topic.description}\n"
-                f"Key Concepts: {', '.join(topic.concepts)}"
-            )
-            metadata = {
-                "day": day.day,
-                "day_title": day.title,
-                "topic": topic.title,
-                "concepts": ", ".join(topic.concepts),
-            }
-            chunks.append({"id": chunk_id, "text": text, "metadata": metadata})
+        chunk_id = f"day{day.day}"
+        text = (
+            f"Day {day.day}: {day.title}\n"
+            f"Type: {day.type}\n"
+            f"Tools: {', '.join(day.tools)}\n"
+            f"Objectives: {', '.join(day.objectives)}"
+        )
+        metadata = {
+            "day": day.day,
+            "title": day.title,
+            "type": day.type,
+            "tools": ", ".join(day.tools)
+        }
+        chunks.append({"id": chunk_id, "text": text, "metadata": metadata})
 
     logger.info("Generated %d curriculum chunks for embedding", len(chunks))
     return chunks
@@ -89,7 +86,44 @@ def get_curriculum_text_chunks() -> list[dict[str, Any]]:
 def load_candidates() -> list[CandidateProfile]:
     """Load and validate candidate profiles from JSON."""
     raw = _load_json(DATA_DIR / "candidates.json")
-    candidates = [CandidateProfile.model_validate(c) for c in raw]
+    candidates = []
+    
+    for c in raw.get("candidates", []):
+        member = c.get("member", {})
+        missions = c.get("missions", [])
+        
+        strengths = []
+        weaknesses = []
+        completed_days = []
+        
+        for m in missions:
+            if m.get("passed") is True:
+                completed_days.append(m.get("day"))
+                if m.get("attempts", 0) <= 2:
+                    strengths.append(m.get("title"))
+                else:
+                    weaknesses.append(m.get("title"))
+            else:
+                weaknesses.append(m.get("title"))
+        
+        exp_years = member.get("yearsExperience", 0)
+        if exp_years < 3:
+            exp_level = "junior"
+        elif exp_years <= 7:
+            exp_level = "mid"
+        else:
+            exp_level = "senior"
+            
+        candidates.append(CandidateProfile(
+            id=member.get("id", ""),
+            name=member.get("name", ""),
+            experience_level=exp_level,
+            target_role=member.get("jobRole", "AI Engineer"),
+            strengths=strengths,
+            weaknesses=weaknesses,
+            completed_days=completed_days
+        ))
+        
     logger.info("Loaded %d candidate profiles", len(candidates))
     return candidates
 
