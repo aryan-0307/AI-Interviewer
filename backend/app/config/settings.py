@@ -38,8 +38,8 @@ class Settings(BaseSettings):
 
     # ── Google Generative AI (Embeddings) ──────
     GOOGLE_API_KEY: str = ""
-    GOOGLE_EMBEDDING_MODEL: str = "models/text-embedding-004"
-    EMBEDDING_DIMENSION: int = 768
+    GOOGLE_EMBEDDING_MODEL: str = "models/gemini-embedding-2"
+    EMBEDDING_DIMENSION: int = 3072
 
     # ── Pinecone Serverless ────────────────────
     PINECONE_API_KEY: str = ""

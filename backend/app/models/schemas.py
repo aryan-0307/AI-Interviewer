@@ -50,31 +50,24 @@ class CandidateProfile(BaseModel):
     """A candidate loaded from the JSON data file."""
     id: str
     name: str
-    email: Optional[str] = None
     experience_level: str = "mid"
-    completed_days: list[int] = Field(default_factory=list)
+    target_role: str = "AI Engineer"
     strengths: list[str] = Field(default_factory=list)
     weaknesses: list[str] = Field(default_factory=list)
-    target_role: str = "AI Engineer"
+    completed_days: list[int] = Field(default_factory=list)
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Curriculum
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-class CurriculumTopic(BaseModel):
-    """A single topic within a curriculum day."""
-    title: str
-    description: str = ""
-    concepts: list[str] = Field(default_factory=list)
-
-
 class CurriculumDay(BaseModel):
     """One day of the curriculum."""
     day: int
     title: str
-    description: str = ""
-    topics: list[CurriculumTopic] = Field(default_factory=list)
+    type: str = ""
+    tools: list[str] = Field(default_factory=list)
+    objectives: list[str] = Field(default_factory=list)
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

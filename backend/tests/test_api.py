@@ -38,13 +38,13 @@ async def test_get_curriculum(client: AsyncClient) -> None:
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
-    assert len(data) >= 8
+    assert len(data) == 31
     # Check structure of first day
     day1 = data[0]
     assert day1["day"] == 1
     assert "title" in day1
-    assert "topics" in day1
-    assert len(day1["topics"]) >= 1
+    assert "type" in day1
+    assert "tools" in day1
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -54,11 +54,11 @@ async def test_get_curriculum(client: AsyncClient) -> None:
 @pytest.mark.asyncio
 async def test_get_candidate_found(client: AsyncClient) -> None:
     """GET /candidate/{id} should return 200 for a valid candidate."""
-    response = await client.get("/candidate/candidate_001")
+    response = await client.get("/candidate/CAND-001")
     assert response.status_code == 200
     data = response.json()
-    assert data["id"] == "candidate_001"
-    assert data["name"] == "Aryan Sharma"
+    assert data["id"] == "CAND-001"
+    assert data["name"] == "Sarah Johnson"
     assert "completed_days" in data
     assert "strengths" in data
 
@@ -80,12 +80,12 @@ async def test_start_interview_success(client: AsyncClient) -> None:
     """POST /interview/start should create a session and return the first question."""
     response = await client.post(
         "/interview/start",
-        json={"candidate_id": "candidate_001"},
+        json={"candidate_id": "CAND-001"},
     )
     assert response.status_code == 200
     data = response.json()
     assert "session_id" in data
-    assert data["candidate_name"] == "Aryan Sharma"
+    assert data["candidate_name"] == "Sarah Johnson"
     assert "question" in data
     assert data["question_number"] == 1
     assert data["difficulty"] in ["easy", "medium", "hard", "expert"]
@@ -112,7 +112,7 @@ async def test_submit_answer_success(client: AsyncClient) -> None:
     # Start an interview first
     start_resp = await client.post(
         "/interview/start",
-        json={"candidate_id": "candidate_001"},
+        json={"candidate_id": "CAND-001"},
     )
     session_id = start_resp.json()["session_id"]
 
@@ -156,7 +156,7 @@ async def test_get_session(client: AsyncClient) -> None:
     # Start interview
     start_resp = await client.post(
         "/interview/start",
-        json={"candidate_id": "candidate_002"},
+        json={"candidate_id": "CAND-002"},
     )
     session_id = start_resp.json()["session_id"]
 
@@ -165,7 +165,7 @@ async def test_get_session(client: AsyncClient) -> None:
     assert response.status_code == 200
     data = response.json()
     assert data["session_id"] == session_id
-    assert data["candidate_id"] == "candidate_002"
+    assert data["candidate_id"] == "CAND-002"
     assert data["status"] == "in_progress"
     assert data["question_count"] == 1
     assert len(data["conversation"]) == 1
@@ -188,7 +188,7 @@ async def test_finish_interview(client: AsyncClient) -> None:
     # Start interview
     start_resp = await client.post(
         "/interview/start",
-        json={"candidate_id": "candidate_001"},
+        json={"candidate_id": "CAND-001"},
     )
     session_id = start_resp.json()["session_id"]
 
@@ -207,8 +207,8 @@ async def test_finish_interview(client: AsyncClient) -> None:
     assert response.status_code == 200
     report = response.json()
     assert report["session_id"] == session_id
-    assert report["candidate_id"] == "candidate_001"
-    assert report["candidate_name"] == "Aryan Sharma"
+    assert report["candidate_id"] == "CAND-001"
+    assert report["candidate_name"] == "Sarah Johnson"
     assert "overall_score" in report
     assert "scores" in report
     assert "strengths" in report
