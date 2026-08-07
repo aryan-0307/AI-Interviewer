@@ -1,0 +1,178 @@
+[
+  {
+    "day": 1,
+    "title": "Foundations of AI and Machine Learning",
+    "description": "Core ML concepts, supervised vs unsupervised learning, model evaluation, and bias-variance tradeoff.",
+    "topics": [
+      {
+        "title": "Supervised Learning",
+        "description": "Classification, regression, decision boundaries, and common algorithms.",
+        "concepts": ["linear regression", "logistic regression", "decision trees", "random forests", "SVMs", "cross-validation", "overfitting", "underfitting"]
+      },
+      {
+        "title": "Unsupervised Learning",
+        "description": "Clustering, dimensionality reduction, and anomaly detection.",
+        "concepts": ["k-means", "DBSCAN", "PCA", "t-SNE", "autoencoders", "anomaly detection"]
+      },
+      {
+        "title": "Model Evaluation",
+        "description": "Metrics, validation strategies, and error analysis.",
+        "concepts": ["accuracy", "precision", "recall", "F1-score", "ROC-AUC", "confusion matrix", "k-fold cross-validation", "bias-variance tradeoff"]
+      }
+    ]
+  },
+  {
+    "day": 2,
+    "title": "Deep Learning and Neural Networks",
+    "description": "Neural network architectures, training techniques, and optimization.",
+    "topics": [
+      {
+        "title": "Neural Network Fundamentals",
+        "description": "Perceptrons, activation functions, backpropagation, and gradient descent.",
+        "concepts": ["perceptron", "activation functions", "ReLU", "sigmoid", "softmax", "backpropagation", "gradient descent", "learning rate"]
+      },
+      {
+        "title": "Convolutional Neural Networks",
+        "description": "CNNs for computer vision tasks.",
+        "concepts": ["convolution layers", "pooling", "feature maps", "ResNet", "VGG", "transfer learning", "data augmentation"]
+      },
+      {
+        "title": "Recurrent Neural Networks",
+        "description": "Sequence modelling with RNNs, LSTMs, and GRUs.",
+        "concepts": ["RNN", "LSTM", "GRU", "vanishing gradients", "sequence-to-sequence", "bidirectional RNN"]
+      }
+    ]
+  },
+  {
+    "day": 3,
+    "title": "Natural Language Processing",
+    "description": "Text processing, embeddings, and modern NLP architectures.",
+    "topics": [
+      {
+        "title": "Text Preprocessing",
+        "description": "Tokenization, stemming, lemmatization, and feature extraction.",
+        "concepts": ["tokenization", "BPE", "WordPiece", "TF-IDF", "bag of words", "stop words", "stemming", "lemmatization"]
+      },
+      {
+        "title": "Word Embeddings",
+        "description": "Distributed representations of words and sentences.",
+        "concepts": ["Word2Vec", "GloVe", "FastText", "contextual embeddings", "embedding dimensions", "cosine similarity"]
+      },
+      {
+        "title": "Transformer Architecture",
+        "description": "Attention mechanism and transformer-based models.",
+        "concepts": ["self-attention", "multi-head attention", "positional encoding", "encoder-decoder", "BERT", "GPT", "layer normalization"]
+      }
+    ]
+  },
+  {
+    "day": 4,
+    "title": "Large Language Models",
+    "description": "LLM architecture, training, fine-tuning, and deployment.",
+    "topics": [
+      {
+        "title": "LLM Architecture",
+        "description": "Decoder-only transformers, scaling laws, and emergent abilities.",
+        "concepts": ["decoder-only transformer", "scaling laws", "emergent abilities", "in-context learning", "few-shot prompting", "chain-of-thought"]
+      },
+      {
+        "title": "Fine-Tuning and Alignment",
+        "description": "Adapting pre-trained models for specific tasks.",
+        "concepts": ["SFT", "RLHF", "DPO", "LoRA", "QLoRA", "PEFT", "instruction tuning", "reward model"]
+      },
+      {
+        "title": "LLM Deployment",
+        "description": "Serving, optimization, and production considerations.",
+        "concepts": ["quantization", "distillation", "KV cache", "speculative decoding", "vLLM", "TensorRT-LLM", "token throughput", "latency"]
+      }
+    ]
+  },
+  {
+    "day": 5,
+    "title": "Retrieval-Augmented Generation (RAG)",
+    "description": "Building RAG pipelines, vector databases, and retrieval strategies.",
+    "topics": [
+      {
+        "title": "RAG Fundamentals",
+        "description": "Combining retrieval with generation for grounded responses.",
+        "concepts": ["retrieval-augmented generation", "vector search", "semantic search", "embedding models", "chunking strategies", "hybrid search"]
+      },
+      {
+        "title": "Vector Databases",
+        "description": "Storing and querying high-dimensional embeddings.",
+        "concepts": ["Pinecone", "FAISS", "Chroma", "Weaviate", "ANN search", "HNSW", "cosine similarity", "metadata filtering"]
+      },
+      {
+        "title": "Advanced RAG",
+        "description": "Improving RAG accuracy and reducing hallucinations.",
+        "concepts": ["re-ranking", "query expansion", "HyDE", "multi-hop retrieval", "context window management", "citation generation", "hallucination detection"]
+      }
+    ]
+  },
+  {
+    "day": 6,
+    "title": "Prompt Engineering and AI Agents",
+    "description": "Advanced prompting techniques and autonomous AI agent design.",
+    "topics": [
+      {
+        "title": "Prompt Engineering",
+        "description": "Designing effective prompts for LLMs.",
+        "concepts": ["zero-shot", "few-shot", "chain-of-thought", "ReAct", "self-consistency", "prompt chaining", "system prompts", "output formatting"]
+      },
+      {
+        "title": "AI Agents",
+        "description": "Building autonomous agents with tool use and planning.",
+        "concepts": ["tool calling", "function calling", "agent loop", "planning", "memory", "reflection", "multi-agent systems", "agent orchestration"]
+      },
+      {
+        "title": "Structured Output",
+        "description": "Generating reliable structured data from LLMs.",
+        "concepts": ["JSON mode", "function calling", "output parsing", "Pydantic validation", "constrained generation", "grammar-based decoding"]
+      }
+    ]
+  },
+  {
+    "day": 7,
+    "title": "MLOps and Production AI Systems",
+    "description": "Deploying, monitoring, and maintaining AI systems in production.",
+    "topics": [
+      {
+        "title": "Model Serving",
+        "description": "APIs, containers, and inference optimization.",
+        "concepts": ["FastAPI", "Docker", "Kubernetes", "model versioning", "A/B testing", "canary deployments", "batch inference", "streaming"]
+      },
+      {
+        "title": "Monitoring and Observability",
+        "description": "Tracking model performance and detecting drift.",
+        "concepts": ["data drift", "concept drift", "model monitoring", "logging", "alerting", "evaluation pipelines", "shadow mode"]
+      },
+      {
+        "title": "CI/CD for ML",
+        "description": "Continuous integration and delivery for ML pipelines.",
+        "concepts": ["ML pipelines", "feature stores", "experiment tracking", "MLflow", "DVC", "automated testing", "reproducibility"]
+      }
+    ]
+  },
+  {
+    "day": 8,
+    "title": "AI Ethics, Safety, and System Design",
+    "description": "Responsible AI, safety measures, and designing scalable AI systems.",
+    "topics": [
+      {
+        "title": "AI Safety",
+        "description": "Guardrails, content filtering, and safe AI deployment.",
+        "concepts": ["guardrails", "content filtering", "jailbreak prevention", "red teaming", "alignment", "responsible AI", "bias mitigation"]
+      },
+      {
+        "title": "System Design for AI",
+        "description": "Architecting scalable AI-powered applications.",
+        "concepts": ["microservices", "event-driven architecture", "caching strategies", "rate limiting", "load balancing", "horizontal scaling", "async processing"]
+      },
+      {
+        "title": "AI Cost Optimization",
+        "description": "Managing costs in production AI systems.",
+        "concepts": ["token optimization", "model routing", "caching embeddings", "batch processing", "spot instances", "cost monitoring", "right-sizing"]
+      }
+    ]
+  }
+]
