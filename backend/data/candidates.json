@@ -1,0 +1,42 @@
+[
+  {
+    "id": "candidate_001",
+    "name": "Aryan Sharma",
+    "email": "aryan.sharma@example.com",
+    "experience_level": "mid",
+    "completed_days": [1, 2, 3, 4, 5],
+    "strengths": ["Python", "Deep Learning", "NLP"],
+    "weaknesses": ["System Design", "MLOps"],
+    "target_role": "AI Engineer"
+  },
+  {
+    "id": "candidate_002",
+    "name": "Priya Patel",
+    "email": "priya.patel@example.com",
+    "experience_level": "senior",
+    "completed_days": [1, 2, 3, 4, 5, 6, 7, 8],
+    "strengths": ["RAG", "Prompt Engineering", "System Design"],
+    "weaknesses": ["Deep Learning Theory"],
+    "target_role": "Senior AI Engineer"
+  },
+  {
+    "id": "candidate_003",
+    "name": "Rahul Verma",
+    "email": "rahul.verma@example.com",
+    "experience_level": "junior",
+    "completed_days": [1, 2, 3],
+    "strengths": ["Python", "Machine Learning Basics"],
+    "weaknesses": ["LLMs", "RAG", "Prompt Engineering", "MLOps"],
+    "target_role": "ML Engineer"
+  },
+  {
+    "id": "candidate_004",
+    "name": "Sneha Gupta",
+    "email": "sneha.gupta@example.com",
+    "experience_level": "mid",
+    "completed_days": [1, 2, 3, 4, 5, 6],
+    "strengths": ["Transformers", "Fine-Tuning", "LLMs"],
+    "weaknesses": ["AI Safety", "Cost Optimization"],
+    "target_role": "AI Engineer"
+  }
+]
