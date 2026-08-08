@@ -106,14 +106,32 @@ export const MOCK_CURRICULUM: CurriculumTopic[] = [
   },
 ];
 
+function mapCandidate(c: any): Candidate {
+  return {
+    id: c.id,
+    name: c.name,
+    role: c.target_role || "Engineer",
+    experience: c.experience_level || "mid",
+    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=random`,
+    skills: c.strengths || [],
+    completedMissions: c.completed_days?.length || 0,
+    overallScore: 80 + Math.min(20, c.completed_days?.length || 0),
+    status: "Ready",
+    bio: `A ${c.experience_level} professional focusing on ${c.target_role || "technology"}.`,
+  };
+}
+
 export const apiService = {
   // GET /candidate
   async getCandidates(): Promise<Candidate[]> {
     try {
-      const res = await fetch(`${API_BASE_URL}/candidate`, { signal: AbortSignal.timeout(2000) });
-      if (res.ok) return await res.json();
-    } catch {
-      // Fallback to mock data if API is offline
+      const res = await fetch(`${API_BASE_URL}/candidate`, { signal: AbortSignal.timeout(3000) });
+      if (res.ok) {
+        const data = await res.json();
+        return data.map(mapCandidate);
+      }
+    } catch (err) {
+      console.warn("Failed to fetch candidates from API, using mock data", err);
     }
     return MOCK_CANDIDATES;
   },
@@ -121,8 +139,18 @@ export const apiService = {
   // GET /curriculum
   async getCurriculum(): Promise<CurriculumTopic[]> {
     try {
-      const res = await fetch(`${API_BASE_URL}/curriculum`, { signal: AbortSignal.timeout(2000) });
-      if (res.ok) return await res.json();
+      const res = await fetch(`${API_BASE_URL}/curriculum`, { signal: AbortSignal.timeout(3000) });
+      if (res.ok) {
+        const data = await res.json();
+        return data.map((d: any) => ({
+          id: `curr-${d.day}`,
+          name: d.title,
+          category: d.type || "General",
+          coveragePercentage: 0,
+          status: "Needs Review",
+          recommendedDays: 1,
+        }));
+      }
     } catch {
       // Fallback
     }
@@ -135,10 +163,40 @@ export const apiService = {
       const res = await fetch(`${API_BASE_URL}/interview/start`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(3000),
+        body: JSON.stringify({ candidate_id: payload.candidateId }),
+        signal: AbortSignal.timeout(5000),
       });
-      if (res.ok) return await res.json();
+      if (res.ok) {
+        const data = await res.json();
+        
+        // Fetch full candidate profile since backend only returns candidate_name
+        let candidate = MOCK_CANDIDATES[0];
+        try {
+          const candRes = await fetch(`${API_BASE_URL}/candidate/${payload.candidateId}`);
+          if (candRes.ok) {
+            candidate = mapCandidate(await candRes.json());
+          }
+        } catch {}
+
+        return {
+          sessionId: data.session_id,
+          candidate,
+          initialQuestion: {
+            id: `q-${data.question_number}`,
+            topic: data.topic,
+            difficulty: data.difficulty,
+            content: data.question,
+            timeLimitSeconds: 180,
+            rubric: [],
+          },
+          initialMessage: {
+            id: `msg-${Date.now()}`,
+            role: "assistant",
+            content: data.message || "Interview started. Good luck!",
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          },
+        };
+      }
     } catch {
       // Fallback mock start
     }
@@ -172,10 +230,71 @@ export const apiService = {
       const res = await fetch(`${API_BASE_URL}/interview/answer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(3000),
+        body: JSON.stringify({ session_id: payload.sessionId, answer: payload.userAnswer }),
+        signal: AbortSignal.timeout(10000), // longer timeout for LLM
       });
-      if (res.ok) return await res.json();
+      if (res.ok) {
+        const data = await res.json();
+        
+        // Construct updated session (we might not have full session data without another API call, so we mock some parts)
+        // Ideally we'd fetch GET /session/{sessionId} here. Let's do it if possible.
+        let updatedSession: any = {
+          sessionId: data.session_id,
+          candidate: MOCK_CANDIDATES[0], // fallback
+          currentQuestionIndex: data.question_number,
+          totalQuestions: 5, // mock total
+          durationSeconds: 300,
+          timeRemainingSeconds: 180,
+          status: data.is_finished ? "finished" : "in_progress",
+          currentScore: (data.evaluation?.overall || 80),
+          curriculumCoverage: 50,
+          strongTopics: [],
+          weakTopics: [],
+        };
+
+        try {
+          const sessionRes = await fetch(`${API_BASE_URL}/session/${data.session_id}`);
+          if (sessionRes.ok) {
+            const sessionData = await sessionRes.json();
+            updatedSession.currentQuestionIndex = sessionData.question_count;
+            updatedSession.strongTopics = sessionData.strong_topics;
+            updatedSession.weakTopics = sessionData.weak_topics;
+            if (sessionData.candidate_id) {
+               const candRes = await fetch(`${API_BASE_URL}/candidate/${sessionData.candidate_id}`);
+               if (candRes.ok) {
+                 updatedSession.candidate = mapCandidate(await candRes.json());
+               }
+            }
+          }
+        } catch {}
+
+        let nextMessageContent = data.feedback;
+        if (data.message) {
+            nextMessageContent += `\n\n${data.message}`;
+        }
+        if (data.next_question) {
+            nextMessageContent += `\n\n**Next Question:** ${data.next_question}`;
+        }
+
+        return {
+          nextMessage: {
+            id: `msg-${Date.now()}`,
+            role: "assistant",
+            content: nextMessageContent,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          },
+          nextQuestion: data.next_question ? {
+            id: `q-${data.question_number + 1}`,
+            topic: data.topic,
+            difficulty: data.difficulty,
+            content: data.next_question,
+            timeLimitSeconds: 180,
+            rubric: [],
+          } : undefined,
+          updatedSession,
+          isFinished: data.is_finished,
+        };
+      }
     } catch {
       // Fallback mock response generator
     }
@@ -240,11 +359,45 @@ export const apiService = {
       const res = await fetch(`${API_BASE_URL}/interview/finish`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(3000),
+        body: JSON.stringify({ session_id: payload.sessionId }),
+        signal: AbortSignal.timeout(10000), // longer timeout for report generation
       });
-      if (res.ok) return await res.json();
-    } catch {
+      if (res.ok) {
+        const data = await res.json();
+        
+        return {
+          sessionId: data.session_id,
+          candidateName: data.candidate_name,
+          candidateRole: "Candidate", // Backend doesn't return role in report, could fetch from candidate API
+          overallScore: Math.round(data.overall_score * 10), // Assuming backend score is 0-10, frontend uses 0-100
+          completionTime: data.duration_seconds ? `${Math.round(data.duration_seconds / 60)} mins` : "Unknown",
+          questionsAnswered: data.total_questions,
+          strengths: data.strengths,
+          weaknesses: data.weaknesses,
+          recommendedCurriculumDays: data.recommended_curriculum_days?.length || 0,
+          radarScores: [
+             { subject: "Accuracy", score: (data.scores.accuracy || 0) * 10, fullMark: 100 },
+             { subject: "Depth", score: (data.scores.depth || 0) * 10, fullMark: 100 },
+             { subject: "Communication", score: (data.scores.communication || 0) * 10, fullMark: 100 },
+             { subject: "Confidence", score: (data.scores.confidence || 0) * 10, fullMark: 100 },
+             { subject: "System Design", score: (data.scores.system_design || 0) * 10, fullMark: 100 },
+             { subject: "Practical Knowledge", score: (data.scores.practical_knowledge || 0) * 10, fullMark: 100 },
+          ],
+          topicBreakdown: data.conversation_log.map((turn: any) => ({
+             topic: turn.topic || "General",
+             score: turn.evaluation ? (turn.evaluation.accuracy * 10) : 0,
+             feedback: turn.feedback || "",
+          })),
+          timelineEvents: data.conversation_log.map((turn: any) => ({
+             time: new Date(turn.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+             title: `Question ${turn.question_number}`,
+             description: turn.topic,
+             type: "neutral"
+          }))
+        };
+      }
+    } catch (err) {
+      console.warn("Failed to finish interview on backend", err);
       // Fallback
     }
 
