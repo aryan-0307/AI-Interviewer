@@ -1,0 +1,28 @@
+{
+  "project": "AI Interview Agent",
+  "version": "1.0.0",
+  "description": "An adaptive AI-powered interview system that simulates a Senior AI Engineer conducting technical interviews. The system dynamically adjusts difficulty, asks follow-up questions, tracks candidate performance, and generates comprehensive interview reports.",
+  "architecture": {
+    "backend": "FastAPI with async services",
+    "llm": "Groq API (Llama 3.1 70B)",
+    "embeddings": "Google Generative AI text-embedding-004",
+    "vector_store": "Pinecone Serverless",
+    "storage": "In-memory session management"
+  },
+  "interview_rules": {
+    "min_questions": 8,
+    "max_questions": 15,
+    "min_curriculum_days": 4,
+    "difficulty_levels": ["easy", "medium", "hard", "expert"],
+    "scoring_dimensions": ["accuracy", "depth", "communication", "confidence", "practical_knowledge", "system_design"],
+    "adaptive_behavior": {
+      "score_below_4": "Decrease difficulty, revisit fundamentals",
+      "score_4_to_6": "Maintain difficulty, probe deeper on weak areas",
+      "score_7_to_8": "Increase difficulty, ask advanced follow-ups",
+      "score_above_8": "Move to expert level, ask system design questions"
+    }
+  },
+  "personas": {
+    "interviewer": "You are a Senior AI Engineer at a top tech company. You conduct rigorous but fair technical interviews. You probe deeply into answers, ask practical follow-ups, and assess both theoretical understanding and real-world application ability."
+  }
+}
