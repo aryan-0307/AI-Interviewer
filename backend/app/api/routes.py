@@ -162,6 +162,17 @@ async def finish_interview(
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 @router.get(
+    "/candidate",
+    response_model=list[CandidateProfile],
+    tags=["Candidates"],
+    summary="Get all candidates",
+)
+async def get_all_candidates() -> list[CandidateProfile]:
+    """Retrieve all candidate profiles."""
+    return load_candidates()
+
+
+@router.get(
     "/candidate/{candidate_id}",
     response_model=CandidateProfile,
     tags=["Candidates"],

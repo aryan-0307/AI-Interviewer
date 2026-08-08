@@ -18,16 +18,8 @@ export function Footer() {
               <span className="font-bold text-white tracking-tight">AI Interviewer</span>
             </div>
             <p className="text-xs text-zinc-400 max-w-sm leading-relaxed">
-              Autonomous AI assessment platform engineered for modern engineering teams. Powered by Next.js 15, FastAPI, and real-time streaming analytics.
+              Autonomous AI assessment platform engineered for modern engineering teams.
             </p>
-            <div className="flex items-center gap-2 text-zinc-400 pt-2">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-800 text-zinc-300 border border-white/5">
-                <Sparkles className="w-3 h-3 text-indigo-400" /> Enterprise Edition
-              </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-800 text-zinc-300 border border-white/5">
-                <Terminal className="w-3 h-3 text-emerald-400" /> FastAPI Engine
-              </span>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -59,16 +51,22 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Tech Stack */}
+          {/* Legal */}
           <div>
             <h5 className="text-xs font-semibold uppercase tracking-wider text-zinc-300 mb-3">
-              Stack Architecture
+              Legal
             </h5>
             <ul className="space-y-2 text-xs text-zinc-400">
-              <li>Next.js 15 App Router</li>
-              <li>Tailwind CSS & Glassmorphism</li>
-              <li>Framer Motion Animations</li>
-              <li>FastAPI & SSE Streaming</li>
+              <li>
+                <Link href="/privacy" className="hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="hover:text-white transition-colors">
+                  Terms of Conditions
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
