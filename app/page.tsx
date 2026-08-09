@@ -82,19 +82,19 @@ export default function LandingPage() {
   const faqs = [
     {
       q: "How does the AI Interviewer adapt during the session?",
-      a: "The agent evaluates both code accuracy and conceptual reasoning after every message. If a candidate demonstrates mastery, it smoothly escalates to architectural edge cases.",
+      a: "The agent evaluates your answers in real-time. If you demonstrate mastery of a topic, it smoothly escalates to more complex, architectural edge cases.",
     },
     {
-      q: "Can this integrate with our existing FastAPI or Python backend?",
-      a: "Yes! The frontend natively exposes REST & Server-Sent Event (SSE) bindings for /interview/start, /interview/answer, and /interview/finish endpoints.",
+      q: "How are the final scores calculated?",
+      a: "Scores are derived from a multi-dimensional rubric that evaluates accuracy, depth of knowledge, system design thinking, and practical application. The AI cross-references your answers against industry standards.",
     },
     {
-      q: "Is candidate progress persisted across reloads?",
-      a: "All active interview sessions, message histories, and radar scores are client-persisted via Zustand state stores.",
+      q: "Is the AI Interviewer biased?",
+      a: "Our AI model is designed to be highly objective and standardized. It evaluates candidates strictly based on technical accuracy and reasoning, mitigating the unconscious bias often present in human interviews.",
     },
     {
-      q: "What programming languages and frameworks are supported?",
-      a: "The candidate evaluation model supports TypeScript, JavaScript, Python, Go, Rust, React 19, Next.js, and SQL system architecture.",
+      q: "What if I get disconnected during my interview?",
+      a: "Don't worry. Your session progress, including your chat history and time remaining, is automatically saved. You can resume right where you left off when you reconnect.",
     },
   ];
 
