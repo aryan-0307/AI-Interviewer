@@ -127,8 +127,21 @@ Throughout the hackathon, an AI coding assistant (Gemini 3.1 Pro) acted as an au
 **Tests/Verification:** N/A
 **Human Review:** Pending
 
----
+**Date:** 2026-08-09 16:15:00
+**Task:** Fix timeline timestamp mismatches in Assessment Report
+**AI Model:** Gemini 3.1 Pro (High)
+**Purpose:** Ensure correct local time parsing in the frontend report by sending proper timezone-aware datetimes from the backend.
+**Files Created:** None
+**Files Modified:** `backend/app/models/schemas.py`, `backend/app/memory/session_manager.py`
+**Files Deleted:** None
+**Important Changes:** 
+- Updated `schemas.py` to use `datetime.now(timezone.utc)` instead of the naive `datetime.utcnow()`.
+- Updated `session_manager.py` to use timezone-aware timestamps when recording the session finish time.
+- By emitting timezone-aware timestamps from FastAPI, the frontend accurately parses the UTC strings into local time, eliminating the timezone jump bugs in the timeline.
+**Tests/Verification:** Verified the code changes enforce timezone-aware Pydantic serialization. 
+**Human Review:** Pending
 
+---
 
 ---
 

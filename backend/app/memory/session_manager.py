@@ -7,7 +7,7 @@ Thread-safe via asyncio — no database required.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from app.core.logging import get_logger
@@ -214,7 +214,7 @@ class SessionManager:
         """Mark the session as completed."""
         session = self.get_session_or_raise(session_id)
         session.status = InterviewStatus.COMPLETED
-        session.finished_at = datetime.utcnow()
+        session.finished_at = datetime.now(timezone.utc)
         logger.info(
             "Session finished  id=%s  questions=%d  duration=%.0fs",
             session_id,
