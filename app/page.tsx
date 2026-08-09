@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Hero3DBackground } from "@/components/Hero3DBackground";
 import {
   Bot,
   Sparkles,
@@ -101,6 +102,8 @@ export default function LandingPage() {
     <div className="relative min-h-screen space-y-24 pb-20 overflow-hidden">
       {/* HERO SECTION */}
       <section className="relative pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        {/* 3D animated background — absolute, pointer-events-none, -z-10 */}
+        <Hero3DBackground />
         {/* Hero Title */}
         <motion.h1
           initial={{ opacity: 0, y: 15 }}

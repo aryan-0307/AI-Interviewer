@@ -31,10 +31,7 @@ export function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-lg text-white tracking-tight flex items-center gap-1.5">
-              AI Interviewer{" "}
-              <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded border border-indigo-500/30 uppercase font-mono font-bold">
-                Pro v2
-              </span>
+              AI Interviewer
             </span>
             <span className="text-[10px] text-zinc-400 tracking-wide font-mono">
               ChatGPT + Linear Assessment Engine
