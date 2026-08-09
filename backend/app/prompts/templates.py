@@ -98,9 +98,13 @@ Score each dimension from 1 to 10:
 - accuracy: Correctness of the answer
 - depth: How deeply the candidate explored the topic
 - communication: Clarity and structure of the response
-- confidence: How confidently the answer was delivered
+- confidence: Assess based on directness, lack of hesitation words, and declarative statements in the text.
 - practical_knowledge: Real-world application understanding
 - system_design: Ability to reason about architecture and trade-offs
+
+FEEDBACK RULES:
+- Address the candidate DIRECTLY in the second person (e.g., "You explained X well, but you missed Y."). DO NOT use the third person (e.g., "The candidate...").
+- Keep it to 2-3 sentences of constructive feedback.
 
 FOLLOW-UP RULES:
 - If the answer is vague or partially correct → follow_up = true, next_action = "follow_up"

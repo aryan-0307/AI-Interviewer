@@ -99,6 +99,7 @@ export interface StartInterviewResponse {
   candidate: Candidate;
   initialQuestion: Question;
   initialMessage: ChatMessageItem;
+  totalQuestions: number;
 }
 
 export interface AnswerInterviewRequest {
@@ -112,6 +113,7 @@ export interface AnswerInterviewResponse {
   nextQuestion?: Question;
   updatedSession: InterviewSession;
   isFinished: boolean;
+  totalQuestions: number;
 }
 
 export interface FinishInterviewRequest {

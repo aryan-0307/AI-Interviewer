@@ -195,6 +195,7 @@ export const apiService = {
             content: data.message || "Interview started. Good luck!",
             timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
           },
+          totalQuestions: data.total_questions || 5,
         };
       }
     } catch {
@@ -221,6 +222,7 @@ export const apiService = {
           "Hello! I am your AI Lead Architect Interviewer. I will be assessing your technical mastery across frontend engineering, backend streaming, and design architecture.\n\nLet's start with our first question on React 19 Server Components.",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       },
+      totalQuestions: 5,
     };
   },
 
@@ -238,15 +240,27 @@ export const apiService = {
         
         // Construct updated session (we might not have full session data without another API call, so we mock some parts)
         // Ideally we'd fetch GET /session/{sessionId} here. Let's do it if possible.
+        let avgScore = 0;
+        if (data.evaluation) {
+          const sum = 
+            (data.evaluation.accuracy || 0) + 
+            (data.evaluation.depth || 0) + 
+            (data.evaluation.communication || 0) + 
+            (data.evaluation.confidence || 0) + 
+            (data.evaluation.practical_knowledge || 0) + 
+            (data.evaluation.system_design || 0);
+          avgScore = Math.round((sum / 6) * 10); // scale 0-10 to 0-100
+        }
+
         let updatedSession: any = {
           sessionId: data.session_id,
           candidate: MOCK_CANDIDATES[0], // fallback
           currentQuestionIndex: data.question_number,
-          totalQuestions: 5, // mock total
+          totalQuestions: data.total_questions || 5,
           durationSeconds: 300,
           timeRemainingSeconds: 180,
           status: data.is_finished ? "finished" : "in_progress",
-          currentScore: (data.evaluation?.overall || 80),
+          currentScore: avgScore,
           curriculumCoverage: 50,
           strongTopics: [],
           weakTopics: [],
@@ -293,6 +307,7 @@ export const apiService = {
           } : undefined,
           updatedSession,
           isFinished: data.is_finished,
+          totalQuestions: data.total_questions || 5,
         };
       }
     } catch {
@@ -350,6 +365,7 @@ export const apiService = {
         weakTopics: ["FastAPI SSE Streaming"],
       },
       isFinished: false,
+      totalQuestions: 5,
     };
   },
 

@@ -75,13 +75,13 @@ class CurriculumDay(BaseModel):
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 class EvaluationScores(BaseModel):
-    """Per-answer evaluation scores (1-10)."""
-    accuracy: int = Field(ge=1, le=10)
-    depth: int = Field(ge=1, le=10)
-    communication: int = Field(ge=1, le=10)
-    confidence: int = Field(ge=1, le=10)
-    practical_knowledge: int = Field(ge=1, le=10)
-    system_design: int = Field(ge=1, le=10)
+    """Per-answer evaluation scores (0-10)."""
+    accuracy: int = Field(ge=0, le=10)
+    depth: int = Field(ge=0, le=10)
+    communication: int = Field(ge=0, le=10)
+    confidence: int = Field(ge=0, le=10)
+    practical_knowledge: int = Field(ge=0, le=10)
+    system_design: int = Field(ge=0, le=10)
 
 
 class QuestionResponse(BaseModel):
@@ -197,6 +197,7 @@ class StartInterviewResponse(BaseModel):
     topic: str
     difficulty: Difficulty
     question_number: int
+    total_questions: int
     message: str = "Interview started. Good luck!"
 
 
@@ -213,6 +214,7 @@ class AnswerResponse(BaseModel):
     topic: str
     difficulty: Difficulty
     question_number: int
+    total_questions: int
     is_follow_up: bool
     is_finished: bool = False
     message: str = ""

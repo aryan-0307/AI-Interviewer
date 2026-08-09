@@ -89,9 +89,16 @@ export function VoiceMicButton({
   disabled = false,
   onToggle,
 }: VoiceMicButtonProps) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const ariaLabel = isRecording ? "Stop voice input" : "Start voice input";
 
-  if (!isSupported) {
+  // Prevent hydration mismatch by rendering the fallback until mounted on the client
+  if (!mounted || !isSupported) {
     return (
       <div className="relative group flex items-center">
         <button
@@ -112,7 +119,7 @@ export function VoiceMicButton({
             "rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           )}
         >
-          Voice input not supported in this browser
+          {mounted && !isSupported ? "Voice input not supported in this browser" : "Initializing voice input..."}
         </div>
       </div>
     );

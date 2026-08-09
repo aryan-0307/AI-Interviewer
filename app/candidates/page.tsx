@@ -50,12 +50,12 @@ export default function CandidatesPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 space-y-8">
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-8 rounded-3xl bg-[#18181B]/80 border border-white/10 backdrop-blur-2xl">
         <div className="space-y-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-mono font-bold">
-            <Users className="w-3.5 h-3.5 text-indigo-400" /> Assessment Roster
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-300 text-xs font-mono font-bold">
+            <Users className="w-3.5 h-3.5 text-zinc-400" /> Assessment Roster
           </span>
           <h1 className="text-3xl font-extrabold text-white tracking-tight">Candidate Selection</h1>
           <p className="text-sm text-zinc-400 max-w-xl">
@@ -70,11 +70,12 @@ export default function CandidatesPage() {
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
           <input
+            suppressHydrationWarning
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search candidate name, role, or skills..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#18181B] border border-white/10 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-sans"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#18181B] border border-white/10 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all font-sans"
           />
         </div>
 
@@ -84,10 +85,11 @@ export default function CandidatesPage() {
           {filterOptions.map((f) => (
             <button
               key={f}
+              suppressHydrationWarning
               onClick={() => setActiveFilter(f)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                 activeFilter === f
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
+                  ? "bg-white text-black shadow-md shadow-white/10"
                   : "bg-[#18181B] text-zinc-400 border border-white/10 hover:text-white"
               }`}
             >
@@ -114,7 +116,7 @@ export default function CandidatesPage() {
                       </span>
                     </h3>
                     <p className="text-xs text-zinc-400 flex items-center gap-1.5 mt-0.5">
-                      <Briefcase className="w-3.5 h-3.5 text-indigo-400" />
+                      <Briefcase className="w-3.5 h-3.5 text-zinc-400" />
                       {cand.role} • <span className="text-zinc-300">{cand.experience}</span>
                     </p>
                   </div>
@@ -122,7 +124,7 @@ export default function CandidatesPage() {
 
                 <div className="text-right">
                   <span className="text-xs text-zinc-400 font-mono block">Prior Benchmark</span>
-                  <span className="text-xl font-extrabold font-mono text-indigo-400">
+                  <span className="text-xl font-extrabold font-mono text-white">
                     {cand.overallScore} / 100
                   </span>
                 </div>
@@ -158,14 +160,15 @@ export default function CandidatesPage() {
                     {cand.completedMissions} Assessments
                   </span>
                 </div>
-                <ProgressBar value={Math.min(100, cand.completedMissions * 5)} color="indigo" size="sm" />
+                <ProgressBar value={Math.min(100, cand.completedMissions * 5)} color="white" size="sm" />
               </div>
             </div>
 
             {/* Launch CTA */}
             <button
+              suppressHydrationWarning
               onClick={() => handleStartMission(cand)}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-xs shadow-lg shadow-indigo-600/25 transition-all duration-300 hover:scale-[1.01]"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white hover:bg-zinc-200 text-black font-semibold text-xs shadow-lg shadow-white/10 transition-all duration-300 hover:scale-[1.01]"
             >
               <Play className="w-4 h-4 fill-current" />
               <span>Start Assessment Mission with {cand.name.split(" ")[0]}</span>

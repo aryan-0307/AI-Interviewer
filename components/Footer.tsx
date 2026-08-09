@@ -12,9 +12,6 @@ export function Footer() {
           {/* Brand Col */}
           <div className="md:col-span-2 flex flex-col gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center">
-                <Bot className="w-4 h-4 text-white" />
-              </div>
               <span className="font-bold text-white tracking-tight">AI Interviewer</span>
             </div>
             <p className="text-xs text-zinc-400 max-w-sm leading-relaxed">
