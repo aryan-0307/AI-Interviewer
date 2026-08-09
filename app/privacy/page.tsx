@@ -3,7 +3,7 @@ import { ShieldCheck } from "lucide-react";
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <div className="min-h-screen pt-8 pb-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <div className="flex items-center gap-4 mb-8">
         <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center">
           <ShieldCheck className="w-6 h-6 text-indigo-400" />

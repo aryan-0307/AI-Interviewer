@@ -101,29 +101,28 @@ export default function LandingPage() {
   return (
     <div className="relative min-h-screen space-y-24 pb-20 overflow-hidden">
       {/* HERO SECTION */}
-      <section className="relative pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
-        {/* 3D animated background — absolute, pointer-events-none, -z-10 */}
+      <section className="relative pt-4 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
         <Hero3DBackground />
+
+        {/* Ambient Glow Orbs */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[400px] opacity-10 pointer-events-none -z-10">
+          <div className="absolute inset-0 bg-white blur-[100px] rounded-full mix-blend-screen" />
+        </div>
+
         {/* Hero Title */}
         <motion.h1
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.15]"
+          className="relative text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter text-white max-w-5xl mx-auto leading-[1.1]"
         >
-          Hire Better with{" "}
-          <span className="block mt-2 text-gradient">AI Interviewer</span>
+          Hire the Top 1% with{" "}
+          <span className="block mt-2 text-white drop-shadow-sm">
+            Autonomous AI
+          </span>
         </motion.h1>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-6 text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed"
-        >
-          Experience a ChatGPT-inspired live interview platform with Linear-grade UI, real-time code evaluation, radar skill breakdown, and instant report synthesis.
-        </motion.p>
+
 
         {/* Action Buttons */}
         <motion.div
@@ -134,7 +133,7 @@ export default function LandingPage() {
         >
           <Link
             href="/candidates"
-            className="flex items-center gap-2.5 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            className="flex items-center gap-2.5 px-7 py-3.5 rounded-2xl bg-white text-black hover:bg-zinc-200 font-semibold text-sm shadow-xl shadow-white/10 hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>Start Free Interview</span>
@@ -143,7 +142,7 @@ export default function LandingPage() {
             href="/interview"
             className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#18181B] border border-white/15 text-zinc-200 hover:bg-zinc-800 hover:text-white font-semibold text-sm transition-all duration-300 backdrop-blur-xl"
           >
-            <Terminal className="w-4 h-4 text-indigo-400" />
+            <Terminal className="w-4 h-4 text-zinc-400" />
             <span>Launch Live Sandbox</span>
           </Link>
         </motion.div>
@@ -219,6 +218,29 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
+      {/* PERFORMANCE METRICS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-y border-white/5 py-12 flex flex-col md:flex-row items-center justify-around gap-8 text-center">
+        <div>
+          <h3 className="text-3xl sm:text-4xl font-extrabold text-white">10x</h3>
+          <p className="text-xs text-zinc-400 font-mono mt-1 uppercase tracking-widest">Faster Screening</p>
+        </div>
+        <div className="hidden md:block w-px h-12 bg-white/10" />
+        <div>
+          <h3 className="text-3xl sm:text-4xl font-extrabold text-white">100%</h3>
+          <p className="text-xs text-zinc-400 font-mono mt-1 uppercase tracking-widest">Objective Scoring</p>
+        </div>
+        <div className="hidden md:block w-px h-12 bg-white/10" />
+        <div>
+          <h3 className="text-3xl sm:text-4xl font-extrabold text-white">24/7</h3>
+          <p className="text-xs text-zinc-400 font-mono mt-1 uppercase tracking-widest">Availability</p>
+        </div>
+        <div className="hidden md:block w-px h-12 bg-white/10" />
+        <div>
+          <h3 className="text-3xl sm:text-4xl font-extrabold text-white">50k+</h3>
+          <p className="text-xs text-zinc-400 font-mono mt-1 uppercase tracking-widest">Sessions Handled</p>
+        </div>
+      </section>
+
       {/* FEATURE CARDS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
@@ -233,8 +255,8 @@ export default function LandingPage() {
             const Icon = feat.icon;
             return (
               <GlassCard key={idx} hoverEffect className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-indigo-400" />
+                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                  <Icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-white">{feat.title}</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed">{feat.description}</p>
@@ -248,7 +270,7 @@ export default function LandingPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 md:p-12 rounded-3xl bg-[#18181B]/80 border border-white/10 backdrop-blur-2xl space-y-10">
           <div className="text-center max-w-xl mx-auto">
-            <span className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-widest">
+            <span className="text-xs font-mono font-bold text-zinc-400 uppercase tracking-widest">
               Execution Architecture
             </span>
             <h2 className="text-3xl font-bold text-white mt-1">Interview Process Timeline</h2>
@@ -263,10 +285,10 @@ export default function LandingPage() {
                   className="relative p-6 rounded-2xl bg-zinc-900/90 border border-white/10 space-y-3"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-black font-mono text-indigo-500/60">
+                    <span className="text-2xl font-black font-mono text-white/20">
                       {step.step}
                     </span>
-                    <Icon className="w-5 h-5 text-indigo-400" />
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
                   <h4 className="text-base font-bold text-zinc-100">{step.title}</h4>
                   <p className="text-xs text-zinc-400 leading-relaxed">{step.desc}</p>
@@ -292,13 +314,12 @@ export default function LandingPage() {
             >
               <button
                 onClick={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
-                className="w-full px-6 py-4 text-left flex items-center justify-between text-sm font-semibold text-zinc-100 hover:text-indigo-300 transition-colors"
+                className="w-full px-6 py-4 text-left flex items-center justify-between text-sm font-semibold text-zinc-100 hover:text-white transition-colors"
               >
                 <span>{faq.q}</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${
-                    openFaqIndex === idx ? "rotate-180 text-indigo-400" : ""
-                  }`}
+                  className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${openFaqIndex === idx ? "rotate-180 text-white" : ""
+                    }`}
                 />
               </button>
               {openFaqIndex === idx && (
@@ -308,6 +329,25 @@ export default function LandingPage() {
               )}
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pb-12">
+        <div className="p-12 sm:p-16 rounded-3xl bg-white text-black space-y-6 shadow-2xl shadow-white/10">
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">Ready to hire the top 1%?</h2>
+          <p className="text-sm sm:text-base text-zinc-600 max-w-xl mx-auto leading-relaxed">
+            Stop wasting engineering hours on early-stage technical screening. Deploy the autonomous AI interviewer today and build world-class teams faster.
+          </p>
+          <div className="pt-4">
+            <Link
+              href="/candidates"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-black text-white hover:bg-zinc-800 font-bold text-sm shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
+              <Play className="w-4 h-4 fill-current" />
+              <span>Launch Your First Interview</span>
+            </Link>
+          </div>
         </div>
       </section>
     </div>

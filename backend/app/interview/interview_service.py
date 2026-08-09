@@ -106,6 +106,7 @@ class InterviewService:
             topic=question_data.topic,
             difficulty=question_data.difficulty,
             question_number=1,
+            total_questions=self._settings.MAX_QUESTIONS,
         )
 
     # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -161,6 +162,7 @@ class InterviewService:
                 topic=eval_result.topic,
                 difficulty=new_difficulty,
                 question_number=session.question_count,
+                total_questions=self._settings.MAX_QUESTIONS,
                 is_follow_up=False,
                 is_finished=True,
                 message="Interview complete. Call /interview/finish to generate the report.",
@@ -200,6 +202,7 @@ class InterviewService:
             topic=next_topic,
             difficulty=next_difficulty,
             question_number=session.question_count,
+            total_questions=self._settings.MAX_QUESTIONS,
             is_follow_up=is_follow_up,
             is_finished=False,
         )

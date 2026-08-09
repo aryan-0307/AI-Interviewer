@@ -80,15 +80,15 @@ export const useInterviewStore = create<InterviewState>((set, get) => ({
       sessionId: response.sessionId,
       candidate: candidateToUse,
       currentQuestionIndex: 1,
-      totalQuestions: 5,
+      totalQuestions: response.totalQuestions,
       currentQuestion: response.initialQuestion,
       durationSeconds: 0,
       timeRemainingSeconds: response.initialQuestion.timeLimitSeconds,
       status: "in_progress",
-      currentScore: 85,
-      curriculumCoverage: 60,
-      strongTopics: ["Frontend Architecture"],
-      weakTopics: ["FastAPI SSE"],
+      currentScore: 0,
+      curriculumCoverage: 0,
+      strongTopics: [],
+      weakTopics: [],
     };
 
     set({

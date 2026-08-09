@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface ProgressBarProps {
   value: number; // 0 to 100
-  color?: "indigo" | "emerald" | "amber" | "rose";
+  color?: "indigo" | "emerald" | "amber" | "rose" | "white";
   showLabel?: boolean;
   className?: string;
   size?: "sm" | "md" | "lg";
@@ -24,6 +24,7 @@ export function ProgressBar({
     emerald: "from-emerald-600 to-emerald-400 shadow-[0_0_12px_rgba(34,197,94,0.5)]",
     amber: "from-amber-600 to-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]",
     rose: "from-rose-600 to-rose-400 shadow-[0_0_12px_rgba(239,68,68,0.5)]",
+    white: "from-white to-zinc-300 shadow-[0_0_12px_rgba(255,255,255,0.5)]",
   };
 
   const heightClasses = {

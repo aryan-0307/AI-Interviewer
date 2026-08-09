@@ -7,6 +7,7 @@ import { useInterviewStore } from "@/store/useInterviewStore";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ScoreCard } from "@/components/ui/ScoreCard";
 import { RadarChart } from "@/components/report/RadarChart";
+import { TopicBarChart } from "@/components/report/TopicBarChart";
 import { CurriculumCard } from "@/components/report/CurriculumCard";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { MOCK_CURRICULUM } from "@/services/api";
@@ -24,31 +25,13 @@ import {
   ChevronRight,
   TrendingUp,
   FileText,
+  BookOpen,
+  ExternalLink,
 } from "lucide-react";
 
 export default function ReportPage() {
   const router = useRouter();
   const { report, session, resetSession, startInterview } = useInterviewStore();
-
-  useEffect(() => {
-    // Trigger celebratory confetti on report load
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ["#6366f1", "#a855f7", "#22c55e"],
-    });
-  }, []);
-
-  const handleRestart = async () => {
-    resetSession();
-    await startInterview();
-    router.push("/interview");
-  };
-
-  const handleDownloadPDF = () => {
-    window.print();
-  };
 
   const activeReport = report || {
     sessionId: "demo-session",
@@ -89,6 +72,37 @@ export default function ReportPage() {
       { time: "14:32", title: "Assessment Finished", description: "Overall score calculated at 94/100 (Pass - Top 2%).", type: "positive" },
     ],
   };
+
+  useEffect(() => {
+    // Trigger celebratory confetti conditionally
+    if (activeReport.overallScore >= 80) {
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ["#6366f1", "#a855f7", "#22c55e", "#fbbf24"],
+      });
+    } else if (activeReport.overallScore >= 60) {
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ["#6366f1", "#a855f7"],
+      });
+    }
+  }, [activeReport.overallScore]);
+
+  const handleRestart = async () => {
+    resetSession();
+    await startInterview();
+    router.push("/interview");
+  };
+
+  const handleDownloadPDF = () => {
+    window.print();
+  };
+
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 print:py-0 print:px-0">
@@ -154,6 +168,17 @@ export default function ReportPage() {
         </GlassCard>
       </div>
 
+      {/* NEW: Topic Breakdown Bar Chart */}
+      <GlassCard className="space-y-2 print:break-inside-avoid">
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <Award className="w-4 h-4 text-indigo-400" /> Topic Performance Breakdown
+          </h3>
+          <span className="text-xs font-mono text-zinc-400">Score per Question Topic</span>
+        </div>
+        <TopicBarChart data={activeReport.topicBreakdown} />
+      </GlassCard>
+
       {/* Strengths vs Growth Opportunities */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Key Strengths */}
@@ -192,6 +217,39 @@ export default function ReportPage() {
           </ul>
         </GlassCard>
       </div>
+
+      {/* Actionable Feedback & Study Plan */}
+      <GlassCard className="space-y-4 print:break-inside-avoid">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-indigo-400" /> Actionable Study Resources
+          </h3>
+          <span className="text-xs font-mono text-indigo-300">Generated from weaknesses</span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {activeReport.weaknesses.map((wk, i) => (
+            <a
+              key={i}
+              href={`https://www.google.com/search?q=${encodeURIComponent(wk + " tutorial architecture")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 p-4 rounded-xl bg-[#18181B]/50 border border-white/5 hover:border-indigo-500/30 transition-all group"
+            >
+              <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 group-hover:scale-110 transition-all shrink-0">
+                <FileText className="w-4 h-4" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-semibold text-zinc-200 group-hover:text-indigo-300 transition-colors line-clamp-2">
+                  {wk}
+                </h4>
+                <p className="text-xs text-zinc-500 mt-1 flex items-center gap-1">
+                  Research resources <ExternalLink className="w-3 h-3" />
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </GlassCard>
 
       {/* Recommended Curriculum */}
       <div className="space-y-4">
