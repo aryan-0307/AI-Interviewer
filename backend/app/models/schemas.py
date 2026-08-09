@@ -11,7 +11,7 @@ Organised into:
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
@@ -121,7 +121,7 @@ class ConversationTurn(BaseModel):
     feedback: str = ""
     is_follow_up: bool = False
     curriculum_day: Optional[int] = None
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -144,7 +144,7 @@ class InterviewSession(BaseModel):
     covered_curriculum_days: list[int] = Field(default_factory=list)
     question_count: int = 0
     follow_up_count: int = 0
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     finished_at: Optional[datetime] = None
 
 
@@ -228,7 +228,7 @@ class HealthResponse(BaseModel):
     status: str = "healthy"
     version: str
     environment: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class ErrorResponse(BaseModel):
