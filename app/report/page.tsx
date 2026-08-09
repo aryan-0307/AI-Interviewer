@@ -264,7 +264,7 @@ export default function ReportPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {activeReport.topicBreakdown.slice(0, 6).map((topicData, idx) => {
             const score = topicData.score;
-            let status: "Mastered" | "In Progress" | "Not Started" = "Not Started";
+            let status: "Mastered" | "In Progress" | "Needs Review" = "Needs Review";
             let recDays = 4;
             
             if (score >= 90) {
