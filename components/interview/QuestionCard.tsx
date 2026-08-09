@@ -43,10 +43,10 @@ export function QuestionCard({
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.35 }}
-      className="p-6 rounded-2xl bg-[#18181B]/90 border border-white/10 backdrop-blur-xl shadow-glass relative overflow-hidden"
+      className="p-4 md:p-6 rounded-2xl bg-[#18181B]/90 border border-white/10 backdrop-blur-xl shadow-glass relative shrink-0"
     >
       {/* Top Meta Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-white/10">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 md:pb-4 md:mb-4 border-b border-white/10">
         <div className="flex items-center gap-2">
           <span className="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-mono font-bold">
             Question {questionNumber} of {totalQuestions}
@@ -80,13 +80,13 @@ export function QuestionCard({
       </div>
 
       {/* Question Content */}
-      <h3 className="text-base md:text-lg font-semibold text-zinc-100 leading-snug mb-4">
+      <h3 className="text-sm md:text-lg font-semibold text-zinc-100 leading-snug mb-2 md:mb-4">
         {question.content}
       </h3>
 
       {/* Evaluation Rubrics */}
       {question.rubric && (
-        <div className="pt-3 border-t border-white/5">
+        <div className="pt-3 border-t border-white/5 hidden md:block">
           <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block mb-2">
             Target Evaluation Metrics
           </span>

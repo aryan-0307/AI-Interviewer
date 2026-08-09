@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Sparkles, Bot, Users, Play, BarChart3 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Sparkles, Bot, Users, Play, BarChart3, Square } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useInterviewStore } from "@/store/useInterviewStore";
 
 const NAV_ITEMS = [
   { label: "Overview", href: "/", icon: Sparkles },
@@ -16,8 +17,10 @@ const NAV_ITEMS = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { finishInterview, isGlobalLoading } = useInterviewStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,14 +150,28 @@ export function Navbar() {
 
           {/* ── CTA Button ── */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/candidates"
-              className="relative group flex items-center gap-2 px-5 py-2.5 text-xs font-bold rounded-xl bg-white text-black hover:bg-zinc-200 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-0.5"
-            >
-              <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-500 -z-10" />
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span className="hidden sm:inline">Launch Interview</span>
-            </Link>
+            {pathname === "/interview" ? (
+              <button
+                onClick={async () => {
+                  await finishInterview();
+                  router.push("/report");
+                }}
+                disabled={isGlobalLoading}
+                className="relative group flex items-center gap-2 px-5 py-2.5 text-xs font-bold rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20 transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.1)] hover:shadow-[0_0_30px_rgba(239,68,68,0.2)] disabled:opacity-50"
+              >
+                <Square className="w-3.5 h-3.5 fill-current" />
+                <span className="inline">Finish</span>
+              </button>
+            ) : (
+              <Link
+                href="/candidates"
+                className="relative group flex items-center gap-2 px-5 py-2.5 text-xs font-bold rounded-xl bg-white text-black hover:bg-zinc-200 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-0.5"
+              >
+                <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-500 -z-10" />
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span className="hidden sm:inline">Launch Interview</span>
+              </Link>
+            )}
           </div>
 
         </div>

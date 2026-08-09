@@ -2,7 +2,7 @@
 
 import React from "react";
 import { CurriculumTopic } from "@/types/interview";
-import { BookOpen, Calendar, CheckCircle2, Clock } from "lucide-react";
+import { BookOpen, Calendar, CheckCircle2, Clock, ExternalLink } from "lucide-react";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 interface CurriculumCardProps {
@@ -40,9 +40,20 @@ export function CurriculumCard({ topic }: CurriculumCardProps) {
       />
 
       {topic.recommendedDays && (
-        <div className="flex items-center gap-1.5 text-xs text-zinc-400 pt-1 font-mono">
-          <Calendar className="w-3.5 h-3.5 text-indigo-400" />
-          <span>Recommended Study Plan: {topic.recommendedDays} Days</span>
+        <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center gap-1.5 text-xs text-zinc-400 pt-1 font-mono">
+            <Calendar className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Recommended Study Plan: {topic.recommendedDays} Days</span>
+          </div>
+          
+          <a
+            href={`https://www.google.com/search?q=${encodeURIComponent(topic.name + " tutorial best practices")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider text-indigo-400 hover:text-indigo-300 transition-colors"
+          >
+            Study <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       )}
     </div>
