@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Hero3DBackground } from "@/components/Hero3DBackground";
 import {
   Bot,
   Sparkles,
@@ -101,7 +102,8 @@ export default function LandingPage() {
     <div className="relative min-h-screen space-y-24 pb-20 overflow-hidden">
       {/* HERO SECTION */}
       <section className="relative pt-4 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
-        
+        <Hero3DBackground />
+
         {/* Ambient Glow Orbs */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[400px] opacity-10 pointer-events-none -z-10">
           <div className="absolute inset-0 bg-white blur-[100px] rounded-full mix-blend-screen" />
@@ -120,7 +122,7 @@ export default function LandingPage() {
           </span>
         </motion.h1>
 
-      
+
 
         {/* Action Buttons */}
         <motion.div
@@ -316,9 +318,8 @@ export default function LandingPage() {
               >
                 <span>{faq.q}</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${
-                    openFaqIndex === idx ? "rotate-180 text-white" : ""
-                  }`}
+                  className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${openFaqIndex === idx ? "rotate-180 text-white" : ""
+                    }`}
                 />
               </button>
               {openFaqIndex === idx && (
