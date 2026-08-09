@@ -54,13 +54,15 @@ export default function InterviewPage() {
       {/* Workspace Grid */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Main Chat & Question Area (8 Cols) */}
-        <main className="lg:col-span-8 flex flex-col h-[calc(100vh-140px)] min-h-[600px] space-y-4">
+        <main className="lg:col-span-8 flex flex-col h-[calc(100dvh-100px)] lg:h-[calc(100vh-140px)] min-h-0 lg:min-h-[600px] space-y-4">
           {/* Active Question Banner */}
-          <QuestionCard
-            question={currentQuestion}
-            questionNumber={session?.currentQuestionIndex || 1}
-            totalQuestions={session?.totalQuestions || 5}
-          />
+          <div className="shrink-0 max-h-[35vh] lg:max-h-none overflow-y-auto rounded-2xl">
+            <QuestionCard
+              question={currentQuestion}
+              questionNumber={session?.currentQuestionIndex || 1}
+              totalQuestions={session?.totalQuestions || 5}
+            />
+          </div>
 
           {/* Chat Stream History Container */}
           <div className="flex-1 overflow-y-auto p-4 rounded-2xl bg-[#09090B]/60 border border-white/10 backdrop-blur-xl space-y-4 shadow-inner">

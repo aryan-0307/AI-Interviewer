@@ -376,7 +376,7 @@ export const apiService = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: payload.sessionId }),
-        signal: AbortSignal.timeout(10000), // longer timeout for report generation
+        signal: AbortSignal.timeout(30000), // increased to 30s for large LLM report generation
       });
       if (res.ok) {
         const data = await res.json();
@@ -404,12 +404,26 @@ export const apiService = {
              score: turn.evaluation ? (turn.evaluation.accuracy * 10) : 0,
              feedback: turn.feedback || "",
           })),
-          timelineEvents: data.conversation_log.map((turn: any) => ({
-             time: new Date(turn.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-             title: `Question ${turn.question_number}`,
-             description: turn.topic,
-             type: "neutral"
-          }))
+          timelineEvents: [
+            { 
+              time: new Date(data.conversation_log[0]?.timestamp || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), 
+              title: "Session Started", 
+              description: "Candidate initiated the assessment session.", 
+              type: "neutral" 
+            },
+            ...data.conversation_log.map((turn: any) => ({
+               time: new Date(turn.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+               title: `Question ${turn.question_number} Answered`,
+               description: turn.topic || "General",
+               type: "positive"
+            })),
+            { 
+              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), 
+              title: "Assessment Finished", 
+              description: `Overall score calculated at ${Math.round(data.overall_score * 10)}/100.`, 
+              type: "positive" 
+            }
+          ]
         };
       }
     } catch (err) {
@@ -449,11 +463,11 @@ export const apiService = {
         { topic: "Tailwind & Framer Motion", score: 96, feedback: "Top tier aesthetic design sense and smooth animation control." },
       ],
       timelineEvents: [
-        { time: "00:00", title: "Session Started", description: "Candidate initiated the assessment session.", type: "neutral" },
-        { time: "03:15", title: "Q1 Answered", description: "Demonstrated deep RSC execution knowledge.", type: "positive" },
-        { time: "07:40", title: "Q2 Code Snippet", description: "Provided clean TypeScript Zustand store implementation.", type: "positive" },
-        { time: "11:20", title: "Q3 System Design", description: "Identified FastAPI stream optimization targets.", type: "warning" },
-        { time: "14:32", title: "Assessment Finished", description: "Overall score calculated at 94/100 (Pass - Top 2%).", type: "positive" },
+        { time: new Date(Date.now() - 15 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), title: "Session Started", description: "Candidate initiated the assessment session.", type: "neutral" },
+        { time: new Date(Date.now() - 12 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), title: "Q1 Answered", description: "Demonstrated deep RSC execution knowledge.", type: "positive" },
+        { time: new Date(Date.now() - 7 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), title: "Q2 Code Snippet", description: "Provided clean TypeScript Zustand store implementation.", type: "positive" },
+        { time: new Date(Date.now() - 3 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), title: "Q3 System Design", description: "Identified FastAPI stream optimization targets.", type: "warning" },
+        { time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), title: "Assessment Finished", description: "Overall score calculated at 94/100 (Pass - Top 2%).", type: "positive" },
       ],
     };
   },

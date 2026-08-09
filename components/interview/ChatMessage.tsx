@@ -52,9 +52,6 @@ export function ChatMessage({ message, userAvatar, userName }: ChatMessageProps)
             {isAssistant ? (
               <>
                 <span className="text-indigo-400 font-mono font-bold">AI Interviewer</span>
-                <span className="px-1.5 py-0.5 text-[10px] rounded bg-indigo-500/20 text-indigo-300 font-mono border border-indigo-500/30">
-                  GPT-4o Architect
-                </span>
               </>
             ) : (
               <span className="text-zinc-200">{userName || "Candidate Response"}</span>

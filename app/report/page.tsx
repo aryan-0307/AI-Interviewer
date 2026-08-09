@@ -262,9 +262,33 @@ export default function ReportPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {MOCK_CURRICULUM.slice(0, 3).map((topic) => (
-            <CurriculumCard key={topic.id} topic={topic} />
-          ))}
+          {activeReport.topicBreakdown.slice(0, 6).map((topicData, idx) => {
+            const score = topicData.score;
+            let status: "Mastered" | "In Progress" | "Not Started" = "Not Started";
+            let recDays = 4;
+            
+            if (score >= 90) {
+              status = "Mastered";
+              recDays = 1; // Or 0, but let's give 1 for review
+            } else if (score >= 60) {
+              status = "In Progress";
+              recDays = 2;
+            }
+
+            return (
+              <CurriculumCard 
+                key={idx} 
+                topic={{
+                  id: `topic-${idx}`,
+                  name: topicData.topic,
+                  category: "Interview Topic",
+                  status: status,
+                  coveragePercentage: score,
+                  recommendedDays: recDays
+                }} 
+              />
+            );
+          })}
         </div>
       </div>
 

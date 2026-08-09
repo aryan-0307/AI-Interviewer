@@ -1764,3 +1764,30 @@ Because you are the developer building and testing this platform, you pass in `"
 
 If you eventually want to use this app *for yourself* to actually practice, you would simply add your own name and background to the `candidates.json` file, and then pass in your own ID when starting the interview!
 
+
+### 2026-08-09
+- **Task/Request**: 
+  1. Fix mobile responsiveness for the Interview Lab (add mobile Finish button, fix squished chat layout).
+  2. Make the Recommended Study Curriculum dynamic based on candidate scores and add proper study links.
+  3. Remove the Voice Input button.
+  4. Remove the "GPT-4o Architect" badge.
+- **AI Model Used**: llama-3.1-8b-instant (via Groq)
+- **Purpose**: To finalize the UI polish, remove unused/unwanted features, and make the analytics report genuinely personalized and helpful.
+- **Files Created**: None
+- **Files Modified**: 
+  - components/Navbar.tsx
+  - app/interview/page.tsx
+  - components/interview/QuestionCard.tsx
+  - components/interview/ChatInput.tsx
+  - app/report/page.tsx
+  - components/report/CurriculumCard.tsx
+  - components/interview/ChatMessage.tsx
+- **Files Deleted**: None
+- **Important Changes Made**: 
+  - Changed the "Launch Interview" mobile navbar button to a "Finish" button on the /interview route.
+  - Wrapped QuestionCard in a max-h-[35vh] scroll container and switched the main layout to use 100dvh for proper mobile browser height calculation.
+  - Mapped the mock curriculum to actual candidate 	opicBreakdown scores, computing dynamic study plans and Google search links.
+  - Stripped useVoiceInput hook and UI out of ChatInput.tsx.
+  - Removed "GPT-4o Architect" badge from AI messages.
+- **Tests/Verification**: Confirmed dynamic mapping logic works and UI correctly adapts to mobile dimensions without overlapping.
+- **Human Review Status**: Completed.
